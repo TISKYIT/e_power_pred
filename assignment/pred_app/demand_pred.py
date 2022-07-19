@@ -10,7 +10,7 @@ from datetime import datetime as dt
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error
 
-from tensorflow.keras.models import Sequential
+from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense, Activation, LSTM
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
@@ -47,13 +47,15 @@ def save_csv(url, file_name):
     urllib3.request.urlretrieve(url, file_name)
 
 
-#def predict_power():
-#    is_file = os.path.isfile(CSV_PATH)
-#    if not is_file or not is_today(CSV_PATH):
-#        save_csv(URL, CSV_NAME)
+def predict_power():
+   is_file = os.path.isfile(CSV_PATH)
+   if not is_file or not is_today(CSV_PATH):
+       save_csv(URL, CSV_NAME)
+   
+#    model = load_mode("")
 #    y = model.predict(x)
 #    y = scaler.inverse_transform(y)
-#
+
 #    return y
 
 
@@ -118,8 +120,6 @@ def train(trainX, trainY, look_back=1):
     es_cb = EarlyStopping(monitor='loss', patience=10, verbose=1, mode='auto')
     model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, verbose=2, callbacks=[cp_cb, es_cb])
 
-    print('学習されない')
-    # model.fit(trainX, trainY, epochs=epochs, batch_size=batch_size, verbose=2)
 
 def score(model, trainX, trainY, testX, testY, scaler):
     # テストデータに対する予測（評価のため訓練データも）
