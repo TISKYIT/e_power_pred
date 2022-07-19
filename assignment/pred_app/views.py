@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from . import forms
 import os
-from . import inference
+from . import demand_pred
 
 
 class TopView(TemplateView):
@@ -20,15 +20,17 @@ class HomeView(LoginRequiredMixin, TemplateView):
 class ResultView(TemplateView):
     """ 推論結果ページ """
     template_name = 'pred_app/result.html'
-    
-    # CSVファイルをダウンロード
-    inference.get_csv()
 
-    # 推論結果をコンテキストへ追加
     def get_context_data(self, **kwargs):
+        # 学習実行
+        trainX, trainY, testX, testY, scaler = demand_pred.create_dataset(look_back=3)
+        demand_pred.train(trainX, trainY, look_back=3)
+
         context = super().get_context_data(**kwargs)
-        context["result"] = inference.get_pred()
+        context["result"] = '0000'
+
         return context
+
 
 class LoginView(LoginView):
     """ ログインページ """
