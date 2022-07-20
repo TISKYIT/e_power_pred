@@ -131,3 +131,8 @@ LOGIN_REDIRECT_URL = 'pred_app:home'
 
 # ログアウト後のリダイレクト先
 LOGOUT_REDIRECT_URL = 'pred_app:top'
+
+CRONJOBS = [
+    ('0 0 * * *', 'pred_app.demand_pred.cron_save_csv'),
+    ('5 0 * * *', 'pred_app.demand_pred.cron_train'),
+]

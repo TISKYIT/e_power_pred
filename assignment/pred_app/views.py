@@ -1,11 +1,14 @@
+from re import I
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import TemplateView
 
-from . import forms
 import os
-from . import demand_pred
+from glob import glob
+from . import forms
+from . import demand_pred as pred
 
+from tensorflow.keras.models import load_model
 
 class TopView(TemplateView):
     """ トップページ """
@@ -17,17 +20,14 @@ class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'pred_app/home.html'
 
 
-class ResultView(TemplateView):
+class ResultView(LoginRequiredMixin, TemplateView):
     """ 推論結果ページ """
     template_name = 'pred_app/result.html'
 
     def get_context_data(self, **kwargs):
-        # 学習実行
-        trainX, trainY, testX, testY, scaler = demand_pred.create_dataset(look_back=3)
-        demand_pred.train(trainX, trainY, look_back=3)
-
+        inference_value = pred.predict_power()
         context = super().get_context_data(**kwargs)
-        context["result"] = '0000'
+        context["result"] = inference_value
 
         return context
 
