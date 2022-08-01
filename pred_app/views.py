@@ -1,14 +1,13 @@
-from re import I
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, CreateView
+from django.urls import reverse_lazy
 
 import os
 from glob import glob
 from . import forms
 from . import demand_pred as pred
 
-from tensorflow.keras.models import load_model
 
 class TopView(TemplateView):
     """ トップページ """
@@ -41,3 +40,9 @@ class LoginView(LoginView):
 class LogoutView(LoginRequiredMixin, LogoutView):
     """ ログアウトページ """
     template_name = 'pred_app/login.html'
+
+
+class SignUpView(CreateView):
+    form_class = forms.SignUpForm
+    template_name = 'pred_app/signup.html'
+    success_url = reverse_lazy('pred_app:home')

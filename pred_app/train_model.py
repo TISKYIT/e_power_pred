@@ -1,5 +1,6 @@
 import os
 import math
+from statistics import mode
 import numpy as np
 import pandas as pd
 from glob import glob
@@ -95,18 +96,19 @@ def train():
 
     # ここから関数化
     today_models = glob(os.path.join(MODEL_DIR, '*'+str_today+'*'))
+    # epochが最大のモデルを最良モデルとして抽出
     max_epoch = max([int(file[-14:-12]) for file in today_models])
     ep = '{ep:02}'.format(ep=max_epoch)
-
-    # 今日の最良モデルのみ残す
     best_model = glob(os.path.join(MODEL_DIR, '*_'+ep+'_*'))
     remove_models = [os.remove(file) for file in today_models if not '_'+ep+'_' in file]
 
     # 今日の最良モデルと、過去の最良モデルを比較して精度の良い方を残す
     models = glob(os.path.join(MODEL_DIR, '*'))
     results = np.array([score(load_model(model), trainx, trainy, testx, testy, scaler) for model in models], dtype=object)
-    remove_which = np.argmax(results[:, 5:6])
-    os.remove(models[remove_which])
+    which = np.argmin(results[:, 5:6])
+    remove_model = models.remove(models[which])
+    if remove_model is not None:
+        os.remove(remove_model)
 
 
 # 学習結果
