@@ -12,8 +12,7 @@ from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense, Activation, LSTM
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
-from . import save_csv as sc
-
+from pred_app import save_csv as sc
 
 # model path 
 MODEL_DIR = os.path.join(os.getcwd(), 'pred_app/model')
