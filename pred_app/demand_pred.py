@@ -5,7 +5,7 @@ import pandas as pd
 from glob import glob
 from datetime import datetime as dt, timedelta
 
-from sklearn.metrics import mean_squared_error
+
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense, Activation, LSTM
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -28,25 +28,6 @@ def is_yesterday(file_path):
         return False
 
 
-# 学習結果
-def score(model, trainx, testx, scaler):
-    # テストデータに対する予測（評価のため訓練データも）
-    trainpredict = model.predict(trainx)
-    testpredict = model.predict(testx)
-    
-    # 正規化を元に戻す
-    trainpredict = scaler.inverse_transform(trainpredict)
-    trainy = scaler.inverse_transform([trainy])
-    testpredict = scaler.inverse_transform(testpredict)
-    testy = scaler.inverse_transform([testy])
-    
-    # 平均二乗誤差のルートで評価
-    trainscore = math.sqrt(mean_squared_error(trainy[0], trainpredict[:,0]))
-    testscore = math.sqrt(mean_squared_error(testy[0], testpredict[:,0]))
-
-    return trainpredict, trainy, trainscore, testpredict, testy, testscore
-
-
 # 電力推定
 def predict_power():
     is_file = os.path.isfile(sc.CSV_PATH)
@@ -55,7 +36,7 @@ def predict_power():
     trainx, trainy, testx, testy, scaler = tm.create_dataset(tm.look_back)
 
     hdf5 = os.listdir(tm.MODEL_DIR)[0]
-    model = load_model(hdf5)
+    model = load_model(os.path.join(tm.MODEL_DIR, hdf5))
     testpredict = model.predict(testx)
     testpredict = scaler.inverse_transform(testpredict)
 
