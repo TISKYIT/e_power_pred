@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth import login
 
 import os
 from glob import glob
@@ -10,17 +12,17 @@ from . import demand_pred as pred
 
 
 class TopView(TemplateView):
-    """ トップページ """
+    # トップページ
     template_name = 'pred_app/top.html'
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
-    """ ホームページ """
+    # ホームページ
     template_name = 'pred_app/home.html'
 
 
 class ResultView(LoginRequiredMixin, TemplateView):
-    """ 推論結果ページ """
+    # 推論結果ページ
     template_name = 'pred_app/result.html'
 
     def get_context_data(self, **kwargs):
@@ -32,18 +34,24 @@ class ResultView(LoginRequiredMixin, TemplateView):
 
 
 class LoginView(LoginView):
-    """ ログインページ """
+    # ログインページ
     form_class = forms.LoginForm 
     template_name = 'pred_app/login.html'
 
 
 class LogoutView(LoginRequiredMixin, LogoutView):
-    """ ログアウトページ """
+    # ログアウトページ
     template_name = 'pred_app/login.html'
 
 
 class SignUpView(CreateView):
-    """ サインアップページ """
+    # サインアップページ
     form_class = forms.SignUpForm
     template_name = 'pred_app/signup.html'
     success_url = reverse_lazy('pred_app:home')
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        self.object = user
+        return HttpResponseRedirect(self.get_success_url())
