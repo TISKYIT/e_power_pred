@@ -94,21 +94,20 @@ def train():
     es_cb = EarlyStopping(monitor='val_loss', patience=10, verbose=1, mode='auto')
     model.fit(x=trainx, y=trainy, validation_data=(testx, testy), batch_size=batch_size, epochs=epochs, verbose=2, callbacks=[cp_cb, es_cb])
 
-    # ここから関数化
     today_models = glob(os.path.join(MODEL_DIR, '*'+str_today+'*'))
-    # epochが最大のモデルを最良モデルとして抽出
     max_epoch = max([int(file[-14:-12]) for file in today_models])
     ep = '{ep:02}'.format(ep=max_epoch)
+
     best_model = glob(os.path.join(MODEL_DIR, '*_'+ep+'_*'))
     remove_models = [os.remove(file) for file in today_models if not '_'+ep+'_' in file]
 
-    # 今日の最良モデルと、過去の最良モデルを比較して精度の良い方を残す
-    models = glob(os.path.join(MODEL_DIR, '*'))
-    results = np.array([score(load_model(model), trainx, trainy, testx, testy, scaler) for model in models], dtype=object)
+    # 今日の最良モデルと、過去の最良モデルを比較し精度の高い方を残す
+    list_models = glob(os.path.join(MODEL_DIR, '*'))
+    results = np.array([score(load_model(model), trainx, trainy, testx, testy, scaler) for model in list_models], dtype=object)
     which = np.argmin(results[:, 5:6])
-    remove_model = models.remove(models[which])
-    if remove_model is not None:
-        os.remove(remove_model)
+    remove_list = list_models.remove(list_models[which])
+    if remove_list is not None:
+        os.remove(remove_list)
 
 
 # 学習結果

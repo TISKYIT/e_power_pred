@@ -1,11 +1,21 @@
+<!-- base.htmlを引き継ぐ -->
 {% extends "pred_app/base.html" %}
-{% block title %}ホーム{% endblock %}
-
+<!-- タイトルブロック -->
+{% block title %}Home{% endblock %}
+<!-- コンテンツブロック -->
 {% block content %}
-<div class="container">
-    <h1 class="my-5"></h1>
-    <p>{{ user.username }}さん、こんにちは。</p>
-    <p>明日の電力需要量を推論しましょう！</p>
-    <a href="{% url 'pred_app:result' %}" class="btn btn-outline-primary">推論</a><br>
+
+<!-- mt: mergin top  mb: mergin bottom -->
+<h1 class="h1 mt-2 mb-3 font-weight-normal">Home</h1>
+<!-- 文字を中央揃えに -->
+<div class="text-center">
+    <!-- card/card-bodyにより外枠が表示される -->
+    <div class="card">
+        <div class="card-body">
+            <p class="h4 mt-2 mb-3 font-weight-normal">{{ user.username }}さん、こんにちは。</p>
+            <p class="h4 mt-2 mb-3 font-weight-normal">今日の電力需要量を予測します。</p>
+            <a href="{% url 'pred_app:result' %}" class="btn btn-outline-primary">推論</a><br>
+        </div>
+    </div>
 </div>
 {% endblock %}

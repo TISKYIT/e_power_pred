@@ -43,6 +43,7 @@ class LogoutView(LoginRequiredMixin, LogoutView):
 
 
 class SignUpView(CreateView):
+    """ サインアップページ """
     form_class = forms.SignUpForm
     template_name = 'pred_app/signup.html'
     success_url = reverse_lazy('pred_app:home')

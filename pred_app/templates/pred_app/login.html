@@ -1,21 +1,33 @@
+<!-- base.htmlを引き継ぐ -->
 {% extends "pred_app/base.html" %}
-{% block title %}ログイン{% endblock %}
-
+<!-- タイトルブロック -->
+{% block title %}Login{% endblock %}
+<!-- コンテンツブロック -->
 {% block content %}
-<div class="container">
-    <h1>ログイン</h1>
+
+<!-- mt: mergin top  mb: mergin bottom -->
+<h1 class="h1 mt-2 mb-3 font-weight-normal">Login</h1>
+<!-- 文字を中央揃えに -->
+<div class="text-center">
     <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        {% for field in form %}
-            {{ field.label }}
-            <br>
-            {{ field }}
-            <br>
-            {{ field.error }}
-        {% endfor %}
-        <br>
-        <button type="submit">ログイン</button>
+        <!-- card/card-bodyにより外枠が表示される -->
+        <div class="card">
+            <div class="card-body">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    {{ field.label }}
+                    <br>
+                    {{ field }}
+                    <br>
+                    {{ field.error }}
+                {% endfor %}
+                <br>
+            <!-- btn-primary:青色ボタン -->
+            <button class="btn btn-primary btn-lg btn-block" type="submit">ログイン</button>
+            </div>
+        </div>
     </form>
 </div>
+
 {% endblock %}

@@ -1,14 +1,22 @@
+<!-- base.htmlを引き継ぐ -->
 {% extends "pred_app/base.html" %}
-{% block title %}推論結果{% endblock %}
-
+<!-- タイトルブロック -->
+{% block title %}Result{% endblock %}
+<!-- コンテンツブロック -->
 {% block content %}
-<div class="container">
-    <h1 class="my-5"></h1>
-    <p>{{ user.username }}さん</p>
-    <p>推定された明日の電力需要量は、</p>
-    <p>{{ result }}</p>
-    <p>です。</p>
-    <a href="{% url 'pred_app:home' %}" class="btn btn-outline-primary">BACK</a><br>
-    <a href="{% url 'pred_app:top' %}" class="btn btn-outline-primary">ログアウト</a><br>
+
+<!-- mt: mergin top  mb: mergin bottom -->
+<h1 class="h1 mt-2 mb-3 font-weight-normal">Result</h1>
+<!-- 文字を中央揃えに -->
+<div class="text-center">
+    <div class="card">
+        <div class="card-body">
+            <p class="h3 mt-2 mb-3 font-weight-normal">{{ user.username }}さん</p>
+            <p class="h4 mt-2 mb-3 font-weight-normal">推定された明日の電力需要量</p>
+            <p class="h4 mt-2 mb-3 font-weight-normal">{{ result }} kwh</p>
+            <a href="{% url 'pred_app:home' %}" class="btn btn-outline-primary">Back</a>
+            <a href="{% url 'pred_app:top' %}" class="btn btn-outline-primary">Logout</a><br>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,0 +1,30 @@
+<!-- base.htmlを引き継ぐ -->
+{% extends "pred_app/base.html" %}
+<!-- タイトルブロック -->
+{% block title %}Sign up{% endblock %}
+<!-- コンテンツブロック -->
+{% block content %}
+
+<!-- mt: mergin top  mb: mergin bottom -->
+<h1 class="h1 mt-2 mb-3 font-weight-normal">Singn up</h1>
+<!-- 文字を中央揃えに -->
+<div class="tex-center">
+    <!-- card/card-bodyにより外枠が表示される -->
+    <div class="card">
+        <div class="card-body">
+        {% for item in form %}
+            <div class="form-group">
+                <label for="{{item.id_for_label}}">{{item.label}}</label>
+                <input
+                    type="{{item.field.widget.input_type}}"
+                    class="form-control"
+                    {% if item.field.required %}required{% endif %}
+                    name="{{item.name}}"
+                    id="{{item.id_for_label}}">
+            </div>
+        {% endfor %}
+        <button class="btn btn-primary btn-lg btn-block" type="submit">登録</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

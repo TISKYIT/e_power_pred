@@ -1,9 +1,24 @@
+<!-- base.htmlを引き継ぐ -->
 {% extends "pred_app/base.html" %}
-{% block title %}トップ{% endblock %}
-
+<!-- タイトルブロック -->
+{% block title %}Top{% endblock %}
+<!-- コンテンツブロック -->
 {% block content %}
-<div class="container">
-    <h1 class="my-5">Top画面</h1>
-    <a href="{% url 'pred_app:login' %}" class="btn btn-outline-primary">ログイン</a>
+
+<!-- mt: mergin top  mb: mergin bottom -->
+<h1 class="h1 mt-2 mb-3 font-weight-normal">Top</h1>
+
+<div class="text-center">
+    <div class="card">
+        <div class="card-body">
+            <p class="h4 mt-2 mb-3 font-weight-normal">このページは、東京電力の過去の電力量のデータから、今日の電力量を予測するページです。<br>
+            <br>
+            <br>
+            <p class="h7 mt-2 mb-3 font-weight-normal">予測を始めるには、ログインしてください。登録がまだの方は、登録ボタンから新規登録をして下さい。<br>
+            <br>
+            <a href="{% url 'pred_app:login' %}" class="btn btn-outline-primary my-1">Login</a>
+            <a href="{% url 'pred_app:signup' %}"class="btn btn-outline-primary my-1">登録</a>
+        </div>
+    </div>
 </div>
 {% endblock %}
