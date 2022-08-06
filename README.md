@@ -21,7 +21,7 @@
 
  - HerokuアプリとGitからcloneしたアプリの紐づけ
 
- - Herokuアプリの更新
+ - Herokuアプリのデプロイ
 
  - ログの確認
 

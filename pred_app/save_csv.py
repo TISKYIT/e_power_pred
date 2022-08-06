@@ -13,7 +13,10 @@ CSV_PATH = os.path.join(CSV_DIR, CSV_NAME)
 
 # csv保存 ※JST:00:00:00にHeroku Schedulerで実行
 def save_csv():
-    urllib.request.urlretrieve(URL, CSV_PATH)
+    try:
+        urllib.request.urlretrieve(URL, CSV_PATH)
+    except:
+        pass
 
 
 if __name__ == '__main__':
