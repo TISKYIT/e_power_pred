@@ -99,16 +99,21 @@ def train():
     ep = '{ep:02}'.format(ep=max_epoch)
 
     best_model = glob(os.path.join(MODEL_DIR, '*_'+ep+'_*'))
+    print('[INFO: trained best model is '+str(best_model)+']')
     remove_models = [os.remove(file) for file in today_models if not '_'+ep+'_' in file]
 
-    # 今日の最良モデルと、過去の最良モデルを比較し精度の高い方を残す
+    # 今日の最良モデルと、過去の最良モデルを比較し精度の高い方を残す.
     list_models = glob(os.path.join(MODEL_DIR, '*'))
-    results = np.array([score(load_model(model), trainx, trainy, testx, testy, scaler)[5] for model in list_models], dtype=object)
-    remove_which = np.argmax(results)
-    remove_model = list_models[remove_which]
-    if remove_model is not None:
-        print('[INFO Another best model is removed.]')
-        os.remove(remove_model)
+    print('[INFO: Number of models is '+str(len(list_models))+'.]')
+    # 違う日のモデルがある場合には、比較して最良の方を残す.
+    if len(list_models) != 1:
+        results = np.array([score(load_model(model), trainx, trainy, testx, testy, scaler)[5] for model in list_models], dtype=object)
+        remove_which = np.argmax(results)
+        remove_model = list_models[remove_which]
+        print('[INFO: '+remove_model+' is another day best model.]')
+        if remove_model is not None:
+            print('[INFO: 2nd best model is removed.]')
+            os.remove(remove_model)
 
 
 # 学習結果
