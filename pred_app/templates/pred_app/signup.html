@@ -14,14 +14,26 @@
         <div class="card">
             <div class="card-body">
                 {% csrf_token %}
-                {{ form.non_field_errors }}
+                <label>ユーザーID</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+                <br>
+                <label>パスワード</label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+                <br>
+                <label>パスワード（確認用）</label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+
+                <!-- {{ form.non_field_errors }}
                 {% for field in form %}
                     {{ field.label }}
                     <br>
                     {{ field }}
                     <br>
                     {{ field.errors }}
-                {% endfor %}
+                {% endfor %} -->
                 <br>
             <!-- btn-primary:青色ボタン -->
             <button class="btn btn-primary btn-lg btn-block" type="submit">登録</button>

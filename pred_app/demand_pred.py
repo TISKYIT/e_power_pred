@@ -37,20 +37,19 @@ def is_latest(file_path):
 # 電力推定
 def predict_power():
     print('[INFO: Start predict]')
-    is_file = os.path.isfile(sc.CSV_PATH)
+
     # ファイルが無い,古い場合はcsvを再取得
+    is_file = os.path.isfile(sc.CSV_PATH)
     if not is_file:
         sc.save_csv()
     if not is_latest(sc.CSV_PATH):
         sc.save_csv()
 
+    # モデルロード
     hdf5 = os.listdir(tm.MODEL_DIR)[0]
     model = load_model(os.path.join(tm.MODEL_DIR, hdf5))
-    
     trainx, trainy, testx, testy, scaler = tm.create_dataset(tm.look_back)
 
-    testpredict = model.predict(testx)
-    testpredict = scaler.inverse_transform(testpredict)
     # 一昨日のデータから今日を予測
     if is_latest(sc.CSV_PATH) == 2:
         # テストデータの末尾から入力データを作成

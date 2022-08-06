@@ -28,6 +28,6 @@ class SignUpForm(UserCreationForm):
         # ユーザー認証
         model = User
         # フィールド指定
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'password']
         # フィールド名指定
-        labels = {'username':'ユーザーID', 'email':'メール'}
+        labels = {'username':'ユーザーID'}
