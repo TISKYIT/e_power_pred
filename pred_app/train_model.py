@@ -19,7 +19,7 @@ from pred_app import save_csv as sc
 MODEL_DIR = os.path.join(os.getcwd(), 'pred_app/model')
 
 
-ratio = 0.67
+ratio = 0.70
 look_back=3
 batch_size = 1
 epochs = 100
@@ -45,17 +45,15 @@ def normalize(dataset):
 def split_dataset(dataset, ratio=0.67):
     train_size = int(len(dataset) * ratio)
     test_size = len(dataset) - train_size
-    train, test = dataset[0:train_size,:], dataset[train_size:len(dataset),:]
-
+    train, test = dataset[0:train_size, :], dataset[train_size:len(dataset), :]
     return train, test
 
 
 # rnn用データセットへ変換
 def look_back_dataset(dataset, look_back=1):
     datax, datay = [], []
-    for i in range(len(dataset)-look_back-1):
-        a = dataset[i:(i+look_back), 0]
-        datax.append(a)
+    for i in range(len(dataset)-look_back):
+        datax.append(dataset[i:(i+look_back), 0] )
         datay.append(dataset[i + look_back, 0])
     
     return np.array(datax), np.array(datay)
@@ -66,6 +64,9 @@ def create_dataset(look_back):
     dataset = read_csv(sc.CSV_PATH)
     dataset, scaler = normalize(dataset)
     train, test = split_dataset(dataset, ratio=0.67)
+    # 分割状況確認
+    # print("train: {0}".format(scaler.inverse_transform(train)))
+    # print("test: {0}".format(scaler.inverse_transform(test)))
     trainx, trainy = look_back_dataset(train, look_back)
     testx, testy = look_back_dataset(test, look_back)
 
