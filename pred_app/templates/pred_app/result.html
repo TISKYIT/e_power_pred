@@ -12,8 +12,8 @@
     <div class="card">
         <div class="card-body">
             <p class="h3 mt-2 mb-3 font-weight-normal">{{ user.username }}さん</p>
-            <p class="h4 mt-2 mb-3 font-weight-normal">推定された明日の電力需要量</p>
-            <p class="h4 mt-2 mb-3 font-weight-normal">{{ result }} kwh</p>
+            <p class="h4 mt-2 mb-3 font-weight-normal">推定された今日の使用率ピーク時需要電力</p>
+            <p class="h4 mt-2 mb-3 font-weight-normal">{{ result }} 万kW</p>
             <a href="{% url 'pred_app:home' %}" class="btn btn-outline-primary">Back</a>
             <a href="{% url 'pred_app:top' %}" class="btn btn-outline-primary">Logout</a><br>
         </div>

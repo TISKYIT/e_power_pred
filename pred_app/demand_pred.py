@@ -80,7 +80,7 @@ def predict_power():
         # 出力チェック
         # print("predy_next: \n{0}".format(pred_next))
 
-        return pred_next[0][0]
+        return int(pred_next[0][0])
 
     # 昨日のデータから今日を予測
     if is_latest(sc.CSV_PATH) == 1:
@@ -93,4 +93,4 @@ def predict_power():
         pred = model.predict(predx)
         pred = scaler.inverse_transform(pred)
 
-        return pred[0][0] 
+        return int(pred[0][0])
