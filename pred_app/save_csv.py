@@ -12,10 +12,12 @@ CSV_PATH = os.path.join(CSV_DIR, CSV_NAME)
 
 
 # csv保存 ※JST:00:00:00にHeroku Schedulerで実行
+# TODO: Herokuが東電からアクセス拒否されている可能性あり
 def save_csv():
     try:
         urllib.request.urlretrieve(URL, CSV_PATH)
     except:
+        print('[WARNING Csv file could not saved.]')
         pass
 
 

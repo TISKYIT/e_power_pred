@@ -76,7 +76,7 @@ def create_dataset(look_back):
     return trainx, trainy, testx, testy, scaler
 
 
-# 学習 ※JST:00:00:05にHeroku Schedulerで実行
+# 学習 ※JST:00:00:30にHeroku Schedulerで実行
 def train():
     # 学習/検証データ作成
     trainx, trainy, testx, testy, scaler = create_dataset(look_back)
@@ -103,11 +103,12 @@ def train():
 
     # 今日の最良モデルと、過去の最良モデルを比較し精度の高い方を残す
     list_models = glob(os.path.join(MODEL_DIR, '*'))
-    results = np.array([score(load_model(model), trainx, trainy, testx, testy, scaler) for model in list_models], dtype=object)
-    which = np.argmin(results[:, 5:6])
-    remove_list = list_models.remove(list_models[which])
-    if remove_list is not None:
-        os.remove(remove_list)
+    results = np.array([score(load_model(model), trainx, trainy, testx, testy, scaler)[5] for model in list_models], dtype=object)
+    remove_which = np.argmax(results)
+    remove_model = list_models[remove_which]
+    if remove_model is not None:
+        print('[INFO Another best model is removed.]')
+        os.remove(remove_model)
 
 
 # 学習結果
@@ -131,3 +132,5 @@ def score(model, trainx, trainy, testx, testy, scaler):
 
 if __name__ == '__main__':
    train()
+
+

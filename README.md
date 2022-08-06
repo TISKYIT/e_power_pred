@@ -17,8 +17,6 @@
 
  - HerokuCLIのインストール方法
 
- - GitHubアカウントの作成
-
  - HerokuアプリとGitからcloneしたアプリの紐づけ
 
  - Herokuアプリのデプロイ

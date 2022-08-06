@@ -5,7 +5,6 @@ import pandas as pd
 from glob import glob
 from datetime import datetime as dt, timedelta
 
-
 from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Dense, Activation, LSTM
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -19,17 +18,18 @@ def is_yesterday(file_path):
     df = pd.read_csv(file_path, header=1, encoding='shift-jis')
     last_date = list(df.tail(1).DATE)[0].split('/')
     dt_last = dt(int(last_date[0]), int(last_date[1]), int(last_date[2])).date()
-    # print(dt_last)
     dt_yday = dt.today().date() - timedelta(1)
-    # print(dt_yday)
     if dt_last == dt_yday:
+        print('[INFO Yesterday csv file is existing.]')
         return True
     else:
+        print('[INFO No yesterday csv file.]')
         return False
 
 
 # 電力推定
 def predict_power():
+    print('[INFO Start predict]')
     is_file = os.path.isfile(sc.CSV_PATH)
     if not is_file or not is_yesterday(sc.CSV_PATH):
         sc.save_csv()
